@@ -1,15 +1,6 @@
 #!/bin/bash
 
-function return_tor_pid() {
-  sudo netstat -pln | \
-    grep 9050 | \
-    grep tor | \
-    awk '{print $7}' | \
-    sed 's/\// /g' | \
-    awk '{print $1}'
-}
-
-pid=$(return_tor_pid)
+pid=$(ps -ef | grep '/usr/bin/tor' | grep -v grep | awk '{print $1}')
 if [[ $pid != "" ]]; then
   echo "Killing Old PID: ${pid}"
   kill -9 $pid
